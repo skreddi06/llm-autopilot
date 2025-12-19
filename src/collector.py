@@ -138,10 +138,28 @@ class Collector:
 
         return web.json_response(self.current_metrics.__dict__)
 
+    async def last_decision_handler(self, request):
+        """HTTP handler to serve the last decision as JSON."""
+        if hasattr(self, 'last_decision') and self.last_decision is not None:
+            return web.json_response({
+                "action": self.last_decision.action.value,
+                "batch_size": self.last_decision.batch_size,
+                "gpu_count": self.last_decision.gpu_count,
+                "reason": self.last_decision.reason,
+                "mode": getattr(self, 'current_mode', 'unknown')
+            })
+        return web.json_response({"error": "No decision available yet."}, status=503)
+
+    def update_last_decision(self, decision, mode="unknown"):
+        """Update the last decision for the /last_decision endpoint."""
+        self.last_decision = decision
+        self.current_mode = mode
+
     async def start_http_server(self, host="0.0.0.0", port=8080):
         """Start an HTTP server to expose live metrics."""
         self._app = web.Application()
         self._app.router.add_get("/live_metrics", self.live_metrics_handler)
+        self._app.router.add_get("/last_decision", self.last_decision_handler)
         self._runner = web.AppRunner(self._app)
         await self._runner.setup()
         self._site = web.TCPSite(self._runner, host, port)

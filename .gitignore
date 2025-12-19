@@ -1,3 +1,50 @@
-.venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Large data files (generated)
+*.jsonl
+*.csv
+decision_log.txt*
+curriculum_stage.txt
+
+# Training artifacts (intermediate - keep only final model)
+ppo_autopilot_v07.zip
+ppo_autopilot_v08.zip
+ppo_curriculum_stage1.zip
+ppo_finetuned_v08.zip
+ppo_finetuned_v09.zip
+ppo_warmstarted_v08.zip
+student_policy.pkl
+training_data*.jsonl
+
+# Keep the final shipped model
+# ppo_cloned_v09.zip
+
+# OS files
+.DS_Store
+Thumbs.db

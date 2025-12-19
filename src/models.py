@@ -15,6 +15,7 @@ class Action(Enum):
     ENABLE_SPECULATIVE_DECODE = "enable_speculative_decode"
     REBALANCE_LOAD = "rebalance_load"
     ENABLE_OVERLAP_MODE = "enable_overlap_mode"
+    DEFER_NIW = "defer_niw"  # Phase 7: Pause batch jobs to free capacity
 
 
 @dataclass
@@ -32,6 +33,11 @@ class Metrics:
     queue_depth: int  # Number of pending requests
     timestamp: float  # Unix timestamp when metrics were collected
     queue_velocity: float = 0.0  # Velocity of the queue (requests per second)
+    
+    # Phase 7: IW/NIW queue tracking
+    queue_depth_iw: int = 0   # Interactive workload queue depth
+    queue_depth_niw: int = 0  # Non-interactive workload queue depth
+    niw_in_flight: int = 0    # NIW requests currently being processed (deferable)
 
 
 @dataclass

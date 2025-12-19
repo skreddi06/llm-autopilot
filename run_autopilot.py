@@ -92,6 +92,9 @@ class Autopilot:
                     # Make decision
                     decision = self.controller.make_decision(metrics)
                     
+                    # Update collector with last decision
+                    self.collector.update_last_decision(decision, self.controller.mode)
+                    
                     # Log metrics and decision
                     self.logger.log_metrics_and_decision(metrics, decision)
                     print("[Autopilot] Metrics and decision logged.")
